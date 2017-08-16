@@ -19,12 +19,14 @@ grad = zeros(size(theta));
 %               You should set J to the cost and grad to the gradient.
 %
 
-diff = X * theta - y;
-J = (diff' * diff + lambda * theta' * theta) / 2 / m;
-
 theta_mask = ones(size(theta));
 theta_mask(1) = 0;
-grad = (X' * diff + lambda * (theta_mask .* theta)) / m;
+
+diff = X * theta - y;
+regularize = theta_mask .* theta;
+J = (diff' * diff + lambda * regularize' * regularize) / 2 / m;
+
+grad = (X' * diff + lambda * regularize) / m;
 
 % =========================================================================
 
